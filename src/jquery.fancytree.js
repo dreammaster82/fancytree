@@ -756,7 +756,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 		var opts = this.tree.options;
 
 //		this.debug("fixSelection3FromEndNodes()");
-		_assert(opts.selectMode === 3, "expected selectMode 3");
+		_assert(opts.selectMode === 3 || opts.selectMode === 4, "expected selectMode 3-4");
 
 		// Visit all end nodes and adjust their parent's `selected` and `partsel`
 		// attributes. Return selection state true, false, or undefined.
@@ -819,6 +819,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 				}
 			}
 			state = allSelected ? true : (someSelected ? undefined : false);
+			if(opts.selectMode === 4 && state !== false) {state = undefined;}
 			node._changeSelectStatusAttrs(state);
 		});
 	},
@@ -4092,7 +4093,7 @@ $.extend(Fancytree.prototype,
 		// Nothing to do?
 		/*jshint -W018 */  // Confusing use of '!'
 		if( !!node.selected === flag ){
-			if( opts.selectMode === 3 && node.partsel && !flag ){
+			if( (opts.selectMode === 3 || opts.selectMode === 4) && node.partsel && !flag ){
 				// If propagation prevented selecting this node last time, we still
 				// want to allow to apply setSelected(false) now
 			}else{
@@ -4111,7 +4112,7 @@ $.extend(Fancytree.prototype,
 				tree.lastSelectedNode.setSelected(false);
 			}
 			node.selected = flag;
-		}else if(opts.selectMode === 3 && parent && !parent.radiogroup && !node.radiogroup){
+		}else if((opts.selectMode === 3 || opts.selectMode === 4) && parent && !parent.radiogroup && !node.radiogroup){
 			// multi-hierarchical selection mode
 			node.selected = flag;
 			node.fixSelection3AfterClick(callOpts);

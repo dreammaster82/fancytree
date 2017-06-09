@@ -7,8 +7,8 @@
  * Released under the MIT license
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
- * @version 2.23.0
- * @date 2017-05-27T20:09:38Z
+ * @version 2.23.1-0
+ * @date 2017-06-09T15:38:47Z
  */
 
 /** Core Fancytree module.
@@ -756,7 +756,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 		var opts = this.tree.options;
 
 //		this.debug("fixSelection3FromEndNodes()");
-		_assert(opts.selectMode === 3, "expected selectMode 3");
+		_assert(opts.selectMode === 3 || opts.selectMode === 4, "expected selectMode 3-4");
 
 		// Visit all end nodes and adjust their parent's `selected` and `partsel`
 		// attributes. Return selection state true, false, or undefined.
@@ -819,6 +819,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 				}
 			}
 			state = allSelected ? true : (someSelected ? undefined : false);
+			if(opts.selectMode === 4 && state !== false) {state = undefined;}
 			node._changeSelectStatusAttrs(state);
 		});
 	},
@@ -4071,7 +4072,8 @@ $.extend(Fancytree.prototype,
 		var node = ctx.node,
 			tree = ctx.tree,
 			opts = ctx.options,
-			noEvents = (callOpts.noEvents === true);
+			noEvents = (callOpts.noEvents === true),
+			parent = node.parent;
 
 		// flag defaults to true
 		flag = (flag !== false);
@@ -4091,7 +4093,7 @@ $.extend(Fancytree.prototype,
 		// Nothing to do?
 		/*jshint -W018 */  // Confusing use of '!'
 		if( !!node.selected === flag ){
-			if( opts.selectMode === 3 && node.partsel && !flag ){
+			if( (opts.selectMode === 3 || opts.selectMode === 4) && node.partsel && !flag ){
 				// If propagation prevented selecting this node last time, we still
 				// want to allow to apply setSelected(false) now
 			}else{
@@ -4110,11 +4112,11 @@ $.extend(Fancytree.prototype,
 				tree.lastSelectedNode.setSelected(false);
 			}
 			node.selected = flag;
-		}else if(opts.selectMode === 3 && !node.parent.radiogroup && !node.radiogroup){
+		}else if((opts.selectMode === 3 || opts.selectMode === 4) && parent && !parent.radiogroup && !node.radiogroup){
 			// multi-hierarchical selection mode
 			node.selected = flag;
 			node.fixSelection3AfterClick(callOpts);
-		}else if(node.parent.radiogroup){
+		}else if(parent && parent.radiogroup){
 			node.visitSiblings(function(n){
 				n._changeSelectStatusAttrs(flag && n === node);
 			}, true);
@@ -4782,7 +4784,7 @@ $.extend($.ui.fancytree,
 	/** @lends Fancytree_Static# */
 	{
 	/** @type {string} */
-	version: "2.23.0",      // Set to semver by 'grunt release'
+	version: "2.23.1-0",      // Set to semver by 'grunt release'
 	/** @type {string} */
 	buildType: "production", // Set to 'production' by 'grunt build'
 	/** @type {int} */

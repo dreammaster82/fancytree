@@ -12,7 +12,7 @@
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -280,7 +280,7 @@ $.ui.fancytree.registerExtension({
 					}
 					// In selectMode 3 we have to fix the child nodes, since we
 					// only stored the selected *top* nodes
-					if( tree.options.selectMode === 3 ){
+					if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 						tree.visit(function(n){
 							if( n.selected ) {
 								n.fixSelection3AfterClick();
@@ -369,7 +369,7 @@ $.ui.fancytree.registerExtension({
 		res = this._superApply(arguments);
 
 		if(local.storeSelected){
-			if( tree.options.selectMode === 3 ){
+			if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 				// In selectMode 3 we only store the the selected *top* nodes.
 				// De-selecting a node may also de-select some parents, so we
 				// calculate the current status again

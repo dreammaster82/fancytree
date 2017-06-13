@@ -8,7 +8,7 @@
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 /** Core Fancytree module.
@@ -470,7 +470,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 			// render if the parent was rendered (or this is a root node)
 			this.render();
 		}
-		if( this.tree.options.selectMode === 3 ){
+		if( this.tree.options.selectMode === 3 || this.tree.options.selectMode === 4){
 			this.fixSelection3FromEndNodes();
 		}
 		this.triggerModifyChild("add", nodeList.length === 1 ? nodeList[0] : null);
@@ -2551,7 +2551,7 @@ Fancytree.prototype = /** @lends Fancytree# */{
 			activeName = (typeof active === "string") ? active : "ft_" + this._id + "_active",
 			id = "fancytree_result_" + this._id,
 			$result = $("#" + id),
-			stopOnParents = this.options.selectMode === 3 && opts.stopOnParents !== false;
+			stopOnParents = (this.options.selectMode === 3 || this.options.selectMode === 4) && opts.stopOnParents !== false;
 
 		if($result.length){
 			$result.empty();
@@ -4351,7 +4351,7 @@ $.extend(Fancytree.prototype,
 		// Trigger fancytreeinit after nodes have been loaded
 		dfd = this.nodeLoadChildren(rootCtx, source).done(function(){
 			tree.render();
-			if( ctx.options.selectMode === 3 ){
+			if( ctx.options.selectMode === 3 || ctx.options.selectMode === 4){
 				tree.rootNode.fixSelection3FromEndNodes();
 			}
 			if( tree.activeNode && tree.options.activeVisible ) {
@@ -5269,7 +5269,7 @@ $.extend($.ui.fancytree,
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 // To keep the global namespace clean, we wrap everything in a closure
@@ -5470,7 +5470,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -5936,7 +5936,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -6509,7 +6509,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 
@@ -7090,7 +7090,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -7406,7 +7406,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -7760,7 +7760,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -7904,7 +7904,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -8110,7 +8110,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -8378,7 +8378,7 @@ $.ui.fancytree.registerExtension({
 					}
 					// In selectMode 3 we have to fix the child nodes, since we
 					// only stored the selected *top* nodes
-					if( tree.options.selectMode === 3 ){
+					if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 						tree.visit(function(n){
 							if( n.selected ) {
 								n.fixSelection3AfterClick();
@@ -8467,7 +8467,7 @@ $.ui.fancytree.registerExtension({
 		res = this._superApply(arguments);
 
 		if(local.storeSelected){
-			if( tree.options.selectMode === 3 ){
+			if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 				// In selectMode 3 we only store the the selected *top* nodes.
 				// De-selecting a node may also de-select some parents, so we
 				// calculate the current status again
@@ -8498,7 +8498,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -8947,7 +8947,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
@@ -9043,7 +9043,7 @@ $.ui.fancytree.registerExtension({
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {

@@ -470,7 +470,7 @@ FancytreeNode.prototype = /** @lends FancytreeNode# */{
 			// render if the parent was rendered (or this is a root node)
 			this.render();
 		}
-		if( this.tree.options.selectMode === 3 ){
+		if( this.tree.options.selectMode === 3 || this.tree.options.selectMode === 4){
 			this.fixSelection3FromEndNodes();
 		}
 		this.triggerModifyChild("add", nodeList.length === 1 ? nodeList[0] : null);
@@ -2551,7 +2551,7 @@ Fancytree.prototype = /** @lends Fancytree# */{
 			activeName = (typeof active === "string") ? active : "ft_" + this._id + "_active",
 			id = "fancytree_result_" + this._id,
 			$result = $("#" + id),
-			stopOnParents = this.options.selectMode === 3 && opts.stopOnParents !== false;
+			stopOnParents = (this.options.selectMode === 3 || this.options.selectMode === 4) && opts.stopOnParents !== false;
 
 		if($result.length){
 			$result.empty();
@@ -4351,7 +4351,7 @@ $.extend(Fancytree.prototype,
 		// Trigger fancytreeinit after nodes have been loaded
 		dfd = this.nodeLoadChildren(rootCtx, source).done(function(){
 			tree.render();
-			if( ctx.options.selectMode === 3 ){
+			if( ctx.options.selectMode === 3 || ctx.options.selectMode === 4){
 				tree.rootNode.fixSelection3FromEndNodes();
 			}
 			if( tree.activeNode && tree.options.activeVisible ) {

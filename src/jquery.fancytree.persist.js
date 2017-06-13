@@ -280,7 +280,7 @@ $.ui.fancytree.registerExtension({
 					}
 					// In selectMode 3 we have to fix the child nodes, since we
 					// only stored the selected *top* nodes
-					if( tree.options.selectMode === 3 ){
+					if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 						tree.visit(function(n){
 							if( n.selected ) {
 								n.fixSelection3AfterClick();
@@ -369,7 +369,7 @@ $.ui.fancytree.registerExtension({
 		res = this._superApply(arguments);
 
 		if(local.storeSelected){
-			if( tree.options.selectMode === 3 ){
+			if( tree.options.selectMode === 3 || tree.options.selectMode === 4){
 				// In selectMode 3 we only store the the selected *top* nodes.
 				// De-selecting a node may also de-select some parents, so we
 				// calculate the current status again

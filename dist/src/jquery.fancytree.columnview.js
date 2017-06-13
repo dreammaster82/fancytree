@@ -10,7 +10,7 @@
  * https://github.com/mar10/fancytree/wiki/LicenseInfo
  *
  * @version 2.23.1-0
- * @date 2017-06-09T15:38:47Z
+ * @date 2017-06-13T06:25:52Z
  */
 
 ;(function($, window, document, undefined) {
